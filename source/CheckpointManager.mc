@@ -159,7 +159,9 @@ class CheckpointManager {
         var fields = [];
         var start = 0;
         while (true) {
-            var remainder = value.substring(start, null);
+            // Use an explicit end index for older SDK profiles. Newer
+            // profiles accept null as "to the end", but Edge 530 does not.
+            var remainder = value.substring(start, value.length());
             var separator = remainder.find("|");
             if (separator == null) {
                 fields.add(remainder);

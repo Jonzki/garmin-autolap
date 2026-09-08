@@ -19,17 +19,18 @@ Manual lap inside saved checkpoint → memoize checkpoint ID
                                   → remove checkpoint from storage
 ```
 
-Keep the ride-tested sound implementation, toast notifications, radius tuning,
+Keep the ride-tested sound implementation, native toast notifications where
+available, radius tuning,
 and bearing-aware display independent from this feature.
 
 ## API and data model
 
-- `WatchUi.DataField.onTimerLap2()` is preferred when available, with
-  `onTimerLap()` as the compatibility fallback. Any lap trigger participates in
-  checkpoint management.
+- `onTimerLap()` is the compatibility callback across supported devices. Any
+  lap trigger delivered through it participates in checkpoint management.
 - `System.getTimer()` provides the 10-second system-time window, which keeps
   running while the activity is auto-paused.
-- `WatchUi.showToast()` provides first-press guidance and success feedback.
+- Audio and the data-field display provide first-press guidance and action
+  feedback; native toasts are used where available.
 - `Application.Storage` persists user-created checkpoints.
 - Storage records use one pipe-delimited string per checkpoint so the object
   store only needs to serialize an array of strings.
@@ -49,7 +50,8 @@ ignored.
 2. On a lap inside a saved checkpoint, memoize that checkpoint ID.
 3. On a lap outside all checkpoints, memoize the latest GPS location.
 4. A second lap within 10 system seconds executes the pending action.
-5. Show a short first-press hint and a success toast.
+5. Show a short first-press hint and action feedback through the data field,
+   audio, and native toast where available.
 6. Preserve pending state through `onTimerPause()`.
 7. Clear pending state on timeout, missing/stale GPS, or `onTimerReset()`.
 8. Treat automatic, distance, position, and manual laps consistently.
@@ -66,19 +68,16 @@ and reject it if it becomes too old.
 - Remove saved checkpoints with two laps inside their trigger radius.
 - Verify storage serialization with the versioned pipe-delimited format.
 - Confirm the default `TONE_LAP` setting and existing sound modes.
-- Confirm toast and lap-position usability during a real test ride.
+- Confirm audio, toast, and lap-position usability during a real test ride.
 
 ## Validation still required
 
-- Confirm whether `onTimerLap2()` is delivered on the Edge 850 device; the
-  implementation currently relies safely on `onTimerLap()` when it is not.
 - Confirm lap handling while the activity is auto-paused.
 - Verify built-in checkpoints cannot be removed after re-enabling their load.
 - Test timeout, missing GPS, stale GPS, pause/resume, and reset behavior.
 - Ride through a newly saved checkpoint on a later activity.
-- Validate the root project on an Edge 530 profile. Notification support may
-  require a compatibility fallback because `showToast()` and `onTimerLap2()`
-  are not listed for that device in current API documentation.
+- Validate the root project on the supported Edge device profiles, beginning
+  with Edge 530.
 
 ## Possible optimization
 

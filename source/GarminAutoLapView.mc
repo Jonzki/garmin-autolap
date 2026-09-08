@@ -106,29 +106,15 @@ class GarminAutoLapView extends WatchUi.SimpleDataField {
             return;
         }
 
-        try {
-            logDebug("Autolap toast: requesting for " + checkpoint.getName());
-            WatchUi.showToast("LAP!  " + checkpoint.getName(), null);
+        if (showNotification("LAP!  " + checkpoint.getName())) {
             mLastAlertAt = now;
-            logDebug("Autolap toast: request accepted");
-        } catch (exception) {
-            logDebug("Autolap toast: request failed");
         }
     }
 
-    // Fallback for SDK/device combinations that do not deliver onTimerLap2.
+    // Compatibility callback used across supported device profiles.
     function onTimerLap() as Void {
             logDebug("Autolap trace: onTimerLap()");
         handleCheckpointLap();
-    }
-
-    // Some SDK/device combinations deliver the richer callback, while others
-    // only deliver onTimerLap. The checkpoint gesture intentionally accepts
-    // either callback and does not depend on the trigger classification.
-    function onTimerLap2(trigger) as Boolean {
-        logDebug("Autolap trace: onTimerLap2()");
-        handleCheckpointLap();
-        return true;
     }
 
     function handleCheckpointLap() as Void {
@@ -202,11 +188,21 @@ class GarminAutoLapView extends WatchUi.SimpleDataField {
         }
     }
 
-    function showActionToast(text) as Void {
+    function showActionToast(text as String) as Void {
+        showNotification(text);
+    }
+
+    function showNotification(text as String) as Lang.Boolean {
+        if (!(WatchUi has :showToast)) {
+            return false;
+        }
+
         try {
             WatchUi.showToast(text, null);
+            return true;
         } catch (exception) {
-            logDebug("Autolap action toast failed");
+            logDebug("Autolap toast failed");
+            return false;
         }
     }
 

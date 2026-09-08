@@ -2,17 +2,18 @@
 
 Garmin AutoLap is a Connect IQ `SimpleDataField` for Garmin Edge computers.
 It observes the native Cycling activity, detects configured GPS checkpoints,
-and provides a visible `LAP!` prompt, sound cue, and toast notification. The
+and provides a visible `LAP!` prompt, sound cue, and native toast where
+supported. The
 native Garmin activity and FIT recording remain in control.
 
-The project currently targets the Edge 850. The implementation uses the
+The project targets Edge 530, 830, 840, 850, 1030, 1040, and 1050. The implementation uses the
 native Garmin activity rather than creating FIT laps itself, because Data
 Fields do not have access to `ActivityRecording.Session.addLap()`.
 
 ## Build
 
-Open the repository root as a VS Code workspace and build the `edge850` target
-with the Garmin Connect IQ extension. The project files are at the root:
+Open the repository root as a VS Code workspace and build a target device with
+the Garmin Connect IQ extension. The project files are at the root:
 
 - `manifest.xml` — Connect IQ application and target device
 - `monkey.jungle` — build entry point
@@ -20,7 +21,8 @@ with the Garmin Connect IQ extension. The project files are at the root:
 - `resources/` — settings, strings, and drawables
 
 The supported field is **Garmin AutoLap**. Add it to a native Cycling data
-page, then use **Simulation → Activity Data** to provide the GPS stream.
+page. The field does not have to be in your most active data screen, 
+as long as it is present in the activity profile you should get audio ques and notifications.
 
 ## Checkpoint database
 
@@ -53,7 +55,7 @@ created checkpoints are stored separately on the device.
 The field displays the nearest approaching checkpoint within 3 km and uses an
 adaptive nearby-point scan to keep GPS processing practical. Entering a
 checkpoint shows `LAP!`, plays the configured attention tone, and displays a
-toast with the checkpoint name.
+sound cue with the checkpoint name shown in the data field.
 
 The `Sound` setting selects `Off`, `Alert`, `Message`, `Start` or `Lap`. Garmin's
 System sound category must be enabled for the cue to be audible.
@@ -69,7 +71,6 @@ auto-paused. Built-in CSV checkpoints are protected from removal.
 
 ## Compatibility and limitations
 
-The active target is Edge 850. `onTimerLap()` is retained as the compatibility
-path for devices that do not deliver the richer lap callback. Broader device
-support, including Edge 530, requires validating notification API support and
-adding the device profile to the manifest.
+The project uses `onTimerLap()` as the compatibility callback across the
+supported devices. Audio and the data-field display provide feedback on every
+target; native toasts are also used where supported.
