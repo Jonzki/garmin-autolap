@@ -1,0 +1,4 @@
+<properties>
+    <!-- 0 = off, 1 = alert, 2 = message, 3 = start, 10 = lap (default) -->
+    <property id="soundMode" type="number">10</property>
+</properties>

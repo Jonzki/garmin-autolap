@@ -1,0 +1,11 @@
+<resources>
+    <strings>
+        <string id="AppName">Garmin AutoLap</string>
+        <string id="settings_sound_mode">Sound</string>
+        <string id="sound_off">Off</string>
+        <string id="sound_alert">Alert</string>
+        <string id="sound_message">Message</string>
+        <string id="sound_start">Start</string>
+        <string id="sound_lap">Lap</string>
+    </strings>
+</resources>

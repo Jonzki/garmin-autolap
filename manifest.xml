@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<iq:manifest version="3" xmlns:iq="http://www.garmin.com/xml/connectiq">
+    <iq:application id="e6bf2b92-fad3-4f1e-9e9e-1e7db082eac6"
+        type="datafield"
+        name="@Strings.AppName"
+        entry="GarminAutoLapApp"
+        launcherIcon="@Drawables.LauncherIcon"
+        minApiLevel="5.2.0">
+        <iq:products>
+            <iq:product id="edge850"/>
+        </iq:products>
+        <iq:permissions>
+            <iq:uses-permission id="Positioning"/>
+        </iq:permissions>
+        <iq:languages>
+            <iq:language>eng</iq:language>
+        </iq:languages>
+        <iq:barrels/>
+    </iq:application>
+</iq:manifest>

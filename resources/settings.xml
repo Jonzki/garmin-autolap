@@ -1,0 +1,11 @@
+<settings>
+    <setting propertyKey="@Properties.soundMode" title="@Strings.settings_sound_mode">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.sound_off</listEntry>
+            <listEntry value="1">@Strings.sound_alert</listEntry>
+            <listEntry value="2">@Strings.sound_message</listEntry>
+            <listEntry value="3">@Strings.sound_start</listEntry>
+            <listEntry value="10">@Strings.sound_lap</listEntry>
+        </settingConfig>
+    </setting>
+</settings>

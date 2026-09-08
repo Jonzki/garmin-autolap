@@ -1,0 +1,8 @@
+# Connect IQ compiler output
+bin/
+
+# VS Code local settings
+.vscode/
+
+# Personal checkpoint locations
+data/checkpoints.local.csv
